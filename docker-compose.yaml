@@ -1,0 +1,21 @@
+services:
+  api-server:
+    container_name: api-server
+    image: api-server
+    build:
+      context: .
+    command: [ "tail", "-f", "/dev/null" ]
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  postgres:
+    container_name: postgres-api-server
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5433"
+    volumes:
+      - ./seeds/postgres:/docker-entrypoint-initdb.d/
